@@ -17,16 +17,8 @@ class MyApp extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: mainConditionNotifier,
       builder: (context, mainCondition, child) {
-        Brightness currentBrightness;
-        if (
-          mainCondition == 'rain' || 
-          mainCondition == 'drizzle' || 
-          mainCondition == 'shower rain' || 
-          mainCondition == 'thunderstorm') {
-          currentBrightness = Brightness.dark;
-        } else {
-          currentBrightness = Brightness.light;
-        }
+        final darkConditions = ['rain', 'drizzle', 'shower rain', 'thunderstorm'];
+        final currentBrightness = darkConditions.contains(mainCondition) ? Brightness.dark : Brightness.light;
 
         return MaterialApp(
           theme: ThemeData(
