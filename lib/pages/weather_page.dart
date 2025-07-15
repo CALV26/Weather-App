@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:myapp/data/notifiers.dart';
 import 'package:myapp/models/weather_model.dart';
 import 'package:myapp/services/weather_service.dart';
 
@@ -69,31 +70,44 @@ class _WeatherPageState extends State<WeatherPage> {
   Widget build(BuildContext context) {
     String? temp = _weather?.temperature.round().toString() ?? '--';
 
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // city name
-            Text(
-              _weather?.cityName ?? "Loading city...",
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+    return ValueListenableBuilder(
+      valueListenable: mainConditionNotifier,
+      builder: (context, mainCondition, child) {
+        mainConditionNotifier.value = _weather?.mainCondition ?? 'clouds';
+
+        return Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // city name
+                Text(
+                  _weather?.cityName ?? "Loading city...",
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+
+                // animation
+                Lottie.asset(getWeatherAnimation(_weather?.mainCondition)),
+
+                // temperature
+                Text(
+                  '$temp °C',
+                  style: const TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+
+                // condition
+                Text(_weather?.mainCondition ?? ""),
+              ],
             ),
-
-            // animation
-            Lottie.asset(getWeatherAnimation(_weather?.mainCondition)),
-
-            // temperature
-            Text(
-              '$temp °C',
-              style: const TextStyle(fontSize: 40, fontWeight: FontWeight.w500),
-            ),
-
-            // condition
-            Text(_weather?.mainCondition ?? ""),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

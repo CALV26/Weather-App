@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/data/notifiers.dart';
 import 'pages/weather_page.dart';
 
 
@@ -11,9 +12,33 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: WeatherPage(),
+    
+
+    return ValueListenableBuilder(
+      valueListenable: mainConditionNotifier,
+      builder: (context, mainCondition, child) {
+        Brightness currentBrightness;
+        if (
+          mainCondition == 'rain' || 
+          mainCondition == 'drizzle' || 
+          mainCondition == 'shower rain' || 
+          mainCondition == 'thunderstorm') {
+          currentBrightness = Brightness.dark;
+        } else {
+          currentBrightness = Brightness.light;
+        }
+
+        return MaterialApp(
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.white,
+              brightness: currentBrightness,
+            ),
+          ),
+          debugShowCheckedModeBanner: false,
+          home: WeatherPage(),
+        );
+      },
     );
   }
 }
