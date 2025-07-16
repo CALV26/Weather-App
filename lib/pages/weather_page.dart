@@ -107,7 +107,7 @@ class _WeatherPageState extends State<WeatherPage> {
                     child: ColorFiltered(
                       colorFilter:
                           const ColorFilter.mode(
-                            Colors.black12,
+                            Colors.black38,
                             BlendMode.darken,
                           ),
                       child: CachedNetworkImage(
