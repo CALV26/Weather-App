@@ -1,8 +1,7 @@
-
 class Weather {
   final String cityName;
   final double temperature;
-  final String mainCondition;
+  String mainCondition;
 
   Weather({
     required this.cityName,
